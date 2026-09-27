@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>模拟电子技术 · 第一节课预习课件</title>
+<title>模拟电子技术 · 第一节课预习</title>
 <style>
   :root{
     --bg:#0a0e27;
@@ -15,6 +15,7 @@
     --orange:#ff9a3c;
     --green:#7eff8b;
     --pink:#ff6b9d;
+    --red:#ff5b5b;
     --text:#e8ecf7;
     --text-dim:#9aa3c2;
     --muted:#5b6694;
@@ -30,253 +31,318 @@
     min-height:100vh;
     overflow-x:hidden;
   }
-  /* 背景电路装饰 */
-  .circuit-bg{
-    position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.18;
-  }
+  .circuit-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.18}
   .circuit-bg svg{width:100%;height:100%}
-  /* 顶部导航 */
+
+  /* ===== 顶部导航 ===== */
   .topbar{
     position:fixed;top:0;left:0;right:0;z-index:100;
-    display:flex;justify-content:space-between;align-items:center;
-    padding:14px 28px;background:rgba(10,14,39,.7);
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:10px 20px;background:rgba(10,14,39,.82);
     backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
   }
-  .topbar .brand{font-weight:700;color:var(--cyan);letter-spacing:1px;font-size:14px}
+  .topbar .brand{font-weight:700;color:var(--cyan);letter-spacing:1px;font-size:13px;white-space:nowrap}
   .topbar .brand::before{content:"⚡ ";color:var(--orange)}
-  .topbar .progress{display:flex;gap:6px;align-items:center}
-  .topbar .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);transition:all .3s}
-  .topbar .dot.active{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
-  .topbar .page-info{color:var(--text-dim);font-size:13px;margin-left:10px;font-variant-numeric:tabular-nums}
+  .tabs{display:flex;gap:6px}
+  .tab{
+    padding:7px 16px;border-radius:99px;border:1px solid var(--line);
+    background:transparent;color:var(--text-dim);font-size:13px;font-weight:600;
+    cursor:pointer;transition:all .25s;white-space:nowrap;
+  }
+  .tab:hover{border-color:var(--cyan-dim);color:var(--text)}
+  .tab.active{background:var(--cyan);color:#06122a;border-color:var(--cyan);box-shadow:0 0 14px rgba(0,229,255,.35)}
+  .tab .done-mark{display:none;margin-left:4px}
+  .tab.completed .done-mark{display:inline}
+  .user-chip{
+    font-size:12px;color:var(--text-dim);white-space:nowrap;cursor:pointer;
+    padding:5px 12px;border:1px solid var(--line);border-radius:99px;transition:all .25s;
+  }
+  .user-chip:hover{border-color:var(--cyan-dim);color:var(--text)}
+  @media (max-width:768px){
+    .topbar{flex-wrap:wrap;padding:8px 12px}
+    .topbar .brand{font-size:11px}
+    .user-chip{display:none}
+  }
 
-  /* 主体 */
-  main{position:relative;z-index:1;padding-top:80px;padding-bottom:120px}
-  .slide{
-    max-width:980px;margin:0 auto;padding:60px 40px;
-    min-height:calc(100vh - 80px);
-    display:flex;flex-direction:column;justify-content:center;
-    animation:fadeUp .6s ease both;
-  }
-  @keyframes fadeUp{
-    from{opacity:0;transform:translateY(20px)}
-    to{opacity:1;transform:translateY(0)}
-  }
+  main{position:relative;z-index:1;padding-top:76px;padding-bottom:60px}
+  .view{display:none;max-width:980px;margin:0 auto;padding:30px 22px;animation:fadeUp .5s ease both}
+  .view.active{display:block}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
   .slide-tag{
     display:inline-block;padding:5px 12px;border-radius:99px;
     background:rgba(0,229,255,.1);color:var(--cyan);
     font-size:12px;letter-spacing:1px;font-weight:600;
-    border:1px solid rgba(0,229,255,.3);margin-bottom:24px;width:fit-content;
+    border:1px solid rgba(0,229,255,.3);margin-bottom:22px;width:fit-content;
   }
   .slide-tag.orange{background:rgba(255,154,60,.1);color:var(--orange);border-color:rgba(255,154,60,.3)}
   .slide-tag.green{background:rgba(126,255,139,.1);color:var(--green);border-color:rgba(126,255,139,.3)}
   .slide-tag.pink{background:rgba(255,107,157,.1);color:var(--pink);border-color:rgba(255,107,157,.3)}
 
   h1.big-title{
-    font-size:64px;line-height:1.1;font-weight:800;letter-spacing:-1px;
+    font-size:56px;line-height:1.1;font-weight:800;letter-spacing:-1px;
     background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--orange) 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
-    margin-bottom:16px;
+    margin-bottom:14px;
   }
-  h1.subtitle{
-    font-size:48px;line-height:1.15;font-weight:700;color:#fff;margin-bottom:20px;
-  }
-  h2.section-title{font-size:36px;font-weight:700;color:#fff;margin-bottom:24px}
-  h3{font-size:22px;color:var(--cyan);margin-bottom:12px;font-weight:600}
-  p{color:var(--text-dim);font-size:17px;max-width:720px}
-  p.lead{font-size:20px;color:var(--text);margin-bottom:32px}
+  h1.subtitle{font-size:40px;line-height:1.15;font-weight:700;color:#fff;margin-bottom:18px}
+  h2.section-title{font-size:32px;font-weight:700;color:#fff;margin-bottom:20px}
+  h3{font-size:20px;color:var(--cyan);margin-bottom:12px;font-weight:600}
+  p{color:var(--text-dim);font-size:16px;max-width:720px}
+  p.lead{font-size:18px;color:var(--text);margin-bottom:28px}
 
-  /* 封面 */
-  .cover{text-align:left;min-height:80vh;justify-content:center}
-  .cover .course-name{font-size:14px;letter-spacing:6px;color:var(--cyan);margin-bottom:20px;font-weight:600}
-  .cover .meta{display:flex;gap:32px;margin-top:40px;flex-wrap:wrap}
-  .cover .meta-item{color:var(--text-dim);font-size:14px}
-  .cover .meta-item strong{color:#fff;font-size:18px;display:block;margin-top:4px}
-  .cover-deco{
-    position:absolute;right:-50px;top:50%;transform:translateY(-50%);
-    width:400px;height:400px;opacity:.5;
+  /* ===== 首页导览卡 ===== */
+  .home-hero{padding:50px 0 20px}
+  .module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:36px 0 30px}
+  .module-card{
+    background:linear-gradient(135deg,rgba(26,35,71,.85),rgba(19,26,58,.6));
+    border:1px solid var(--line);border-radius:16px;padding:28px 24px;
+    cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
   }
+  .module-card:hover{transform:translateY(-4px);border-color:var(--cyan);box-shadow:0 10px 30px rgba(0,229,255,.12)}
+  .module-card .m-icon{font-size:34px;margin-bottom:14px}
+  .module-card h3{font-size:19px;color:#fff;margin-bottom:8px}
+  .module-card p{font-size:13px;margin:0}
+  .module-card .m-state{
+    position:absolute;top:18px;right:18px;font-size:11px;padding:3px 10px;border-radius:99px;
+    background:rgba(91,102,148,.2);color:var(--text-dim);border:1px solid var(--line);
+  }
+  .module-card.is-done .m-state{background:rgba(126,255,139,.12);color:var(--green);border-color:rgba(126,255,139,.4)}
+  .module-card .go{
+    display:inline-block;margin-top:16px;font-size:13px;color:var(--cyan);font-weight:600;
+  }
+  @media (max-width:768px){.module-grid{grid-template-columns:1fr}}
 
-  /* 应用场景卡片 */
-  .app-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}
+  /* ===== 课件翻页 ===== */
+  .slide{
+    max-width:980px;margin:0 auto;padding:40px 30px;
+    min-height:60vh;display:flex;flex-direction:column;justify-content:center;
+  }
+  .cover{text-align:left;justify-content:center}
+  .cover .course-name{font-size:13px;letter-spacing:6px;color:var(--cyan);margin-bottom:18px;font-weight:600}
+  .cover .meta{display:flex;gap:32px;margin-top:36px;flex-wrap:wrap}
+  .cover .meta-item{color:var(--text-dim);font-size:13px}
+  .cover .meta-item strong{color:#fff;font-size:16px;display:block;margin-top:4px}
+  .cover-deco{position:absolute;right:-50px;top:50%;transform:translateY(-50%);width:380px;height:380px;opacity:.5}
+  .slide-wrap{position:relative}
+
+  .app-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:22px}
   .app-card{
     background:linear-gradient(135deg,rgba(26,35,71,.8),rgba(19,26,58,.6));
-    border:1px solid var(--line);border-radius:14px;padding:22px;
-    display:flex;gap:18px;align-items:center;
-    transition:all .3s;cursor:default;
+    border:1px solid var(--line);border-radius:14px;padding:20px;
+    display:flex;gap:16px;align-items:center;transition:all .3s;
   }
-  .app-card:hover{transform:translateY(-3px);border-color:var(--cyan-dim);box-shadow:0 8px 24px rgba(0,229,255,.1)}
+  .app-card:hover{transform:translateY(-3px);border-color:var(--cyan-dim)}
   .app-icon{
-    width:56px;height:56px;border-radius:12px;flex-shrink:0;
+    width:52px;height:52px;border-radius:12px;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
-    background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);
-    font-size:28px;
+    background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);font-size:26px;
   }
   .app-icon.orange{background:rgba(255,154,60,.1);border-color:rgba(255,154,60,.2)}
   .app-icon.green{background:rgba(126,255,139,.1);border-color:rgba(126,255,139,.2)}
   .app-icon.pink{background:rgba(255,107,157,.1);border-color:rgba(255,107,157,.2)}
-  .app-card h4{color:#fff;font-size:16px;margin-bottom:4px;font-weight:600}
-  .app-card p{font-size:13px;color:var(--text-dim);margin:0}
+  .app-card h4{color:#fff;font-size:15px;margin-bottom:4px;font-weight:600}
+  .app-card p{font-size:13px;margin:0}
 
-  /* 课程地图 */
-  .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
-  .rm-card{
-    background:var(--panel);border:1px solid var(--line);border-radius:12px;
-    padding:20px;position:relative;overflow:hidden;
-    transition:all .3s;
-  }
-  .rm-card:hover{border-color:var(--cyan);transform:translateY(-2px)}
-  .rm-card::before{
-    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
-    background:var(--cyan);opacity:0;transition:opacity .3s;
-  }
-  .rm-card:hover::before{opacity:1}
-  .rm-card .num{color:var(--cyan);font-weight:700;font-size:13px;letter-spacing:1px}
-  .rm-card h4{color:#fff;font-size:15px;margin:8px 0 6px;font-weight:600}
-  .rm-card p{font-size:13px;color:var(--text-dim);margin:0;line-height:1.5}
+  .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+  .rm-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;transition:all .3s}
+  .rm-card:hover{border-color:var(--cyan)}
+  .rm-card .num{color:var(--cyan);font-weight:700;font-size:12px;letter-spacing:1px}
+  .rm-card h4{color:#fff;font-size:14px;margin:8px 0 6px;font-weight:600}
+  .rm-card p{font-size:12px;margin:0}
 
-  /* 模拟 vs 数字 */
-  .compare{display:grid;grid-template-columns:1fr 60px 1fr;gap:24px;margin-top:24px;align-items:stretch}
-  .compare-side{
-    background:var(--panel);border:1px solid var(--line);border-radius:14px;
-    padding:28px;text-align:center;
-  }
+  .compare{display:grid;grid-template-columns:1fr 50px 1fr;gap:20px;margin-top:22px;align-items:stretch}
+  .compare-side{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;text-align:center}
   .compare-side.analog{border-color:rgba(0,229,255,.4)}
   .compare-side.digital{border-color:rgba(255,154,60,.4)}
-  .compare-side h3{margin-bottom:8px}
   .compare-side.analog h3{color:var(--cyan)}
   .compare-side.digital h3{color:var(--orange)}
-  .wave-box{
-    background:#0a0e27;border-radius:8px;padding:16px;margin:18px 0;
-    border:1px solid var(--line);
-  }
-  .compare-vs{
-    display:flex;align-items:center;justify-content:center;
-    font-size:28px;font-weight:800;color:var(--text-dim);
-  }
-  .compare-table{width:100%;border-collapse:collapse;margin-top:18px;font-size:13px}
-  .compare-table th,.compare-table td{
-    padding:8px 6px;text-align:left;border-bottom:1px solid var(--line);
-  }
-  .compare-table th{color:var(--text-dim);font-weight:500;font-size:12px}
+  .wave-box{background:#0a0e27;border-radius:8px;padding:14px;margin:16px 0;border:1px solid var(--line)}
+  .compare-vs{display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:var(--text-dim)}
+  .compare-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:12px}
+  .compare-table th,.compare-table td{padding:7px 6px;text-align:left;border-bottom:1px solid var(--line)}
+  .compare-table th{color:var(--text-dim);font-weight:500;font-size:11px}
   .compare-table td{color:var(--text)}
   .compare-table td:first-child{color:var(--text-dim)}
 
-  /* 第一节课预告 */
   .preview-card{
     background:linear-gradient(135deg,rgba(0,229,255,.05),rgba(255,154,60,.05));
-    border:1px solid var(--cyan-dim);border-radius:16px;
-    padding:32px;margin-top:24px;
+    border:1px solid var(--cyan-dim);border-radius:16px;padding:28px;margin-top:22px;
   }
   .preview-card h2{color:#fff;margin-bottom:8px}
-  .keywords{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-  .kw{
-    padding:6px 14px;border-radius:99px;
-    background:rgba(0,229,255,.1);color:var(--cyan);
-    font-size:13px;border:1px solid rgba(0,229,255,.3);font-weight:500;
-  }
+  .keywords{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .kw{padding:6px 14px;border-radius:99px;background:rgba(0,229,255,.1);color:var(--cyan);font-size:13px;border:1px solid rgba(0,229,255,.3)}
   .kw.orange{background:rgba(255,154,60,.1);color:var(--orange);border-color:rgba(255,154,60,.3)}
 
-  /* 课前思考题 */
-  .qa-list{display:flex;flex-direction:column;gap:16px;margin-top:24px}
-  .qa-item{
-    background:var(--panel);border:1px solid var(--line);border-radius:12px;
-    padding:22px 26px;display:flex;gap:20px;align-items:flex-start;
-    transition:all .3s;cursor:pointer;
-  }
-  .qa-item:hover{border-color:var(--cyan);background:#1f2a52}
+  .qa-list{display:flex;flex-direction:column;gap:14px;margin-top:22px}
+  .qa-item{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 24px;cursor:pointer;transition:all .3s}
+  .qa-item:hover{border-color:var(--cyan)}
   .qa-num{
-    flex-shrink:0;width:36px;height:36px;border-radius:50%;
+    flex-shrink:0;width:34px;height:34px;border-radius:50%;
     background:linear-gradient(135deg,var(--cyan),var(--cyan-dim));
-    color:#0a0e27;display:flex;align-items:center;justify-content:center;
-    font-weight:700;font-size:15px;
+    color:#0a0e27;display:inline-flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:14px;margin-bottom:10px;
   }
-  .qa-item:nth-child(2) .qa-num{background:linear-gradient(135deg,var(--orange),#ff6b9d)}
-  .qa-item:nth-child(3) .qa-num{background:linear-gradient(135deg,var(--green),var(--cyan))}
-  .qa-item .qa-text{flex:1}
-  .qa-item .qa-text h4{color:#fff;font-size:17px;margin-bottom:6px;font-weight:600}
-  .qa-item .qa-text p{font-size:14px;margin:0}
-  .qa-hint{
-    color:var(--text-dim);font-size:12px;margin-top:12px;
-    padding-top:12px;border-top:1px dashed var(--line);display:none;
-  }
-  .qa-item.open .qa-hint{display:block;animation:fadeUp .4s ease}
-  .qa-item .qa-toggle{
-    color:var(--cyan);font-size:12px;margin-top:6px;display:inline-block;
-    user-select:none;
-  }
+  .qa-item:nth-of-type(2) .qa-num{background:linear-gradient(135deg,var(--orange),var(--pink))}
+  .qa-item:nth-of-type(3) .qa-num{background:linear-gradient(135deg,var(--green),var(--cyan))}
+  .qa-text h4{color:#fff;font-size:16px;margin-bottom:6px;font-weight:600}
+  .qa-text p{font-size:13px;margin:0}
+  .qa-hint{color:var(--text-dim);font-size:13px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);display:none}
+  .qa-item.open .qa-hint{display:block}
 
-  /* 学习方式 */
-  .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
-  .method{
-    background:var(--panel);border:1px solid var(--line);border-radius:12px;
-    padding:24px;text-align:center;
-  }
-  .method .m-icon{font-size:36px;margin-bottom:12px}
-  .method h4{color:#fff;margin-bottom:6px;font-size:16px}
-  .method p{font-size:13px;color:var(--text-dim);margin:0}
-  .platform-note{
-    margin-top:32px;padding:24px;background:rgba(0,229,255,.05);
-    border-radius:12px;border-left:4px solid var(--cyan);
-  }
-  .platform-note h4{color:var(--cyan);margin-bottom:8px;font-size:16px}
-  .platform-note p{font-size:14px;margin:0}
+  .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+  .method{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;text-align:center}
+  .method .m-icon{font-size:32px;margin-bottom:10px}
+  .method h4{color:#fff;margin-bottom:6px;font-size:15px}
+  .method p{font-size:12px;margin:0}
+  .platform-note{margin-top:28px;padding:22px;background:rgba(0,229,255,.05);border-radius:12px;border-left:4px solid var(--cyan)}
+  .platform-note h4{color:var(--cyan);margin-bottom:8px;font-size:15px}
+  .platform-note p{font-size:13px;margin:0}
 
-  /* 考核 */
   .grade-table{width:100%;margin-top:20px;border-collapse:collapse}
-  .grade-table th,.grade-table td{
-    padding:14px 18px;text-align:left;border-bottom:1px solid var(--line);
-    font-size:14px;
-  }
-  .grade-table th{background:rgba(0,229,255,.05);color:var(--cyan);font-weight:600;font-size:13px;letter-spacing:.5px}
-  .grade-table td{color:var(--text)}
-  .grade-table td:first-child{color:var(--text-dim)}
+  .grade-table th,.grade-table td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:13px}
+  .grade-table th{background:rgba(0,229,255,.05);color:var(--cyan);font-weight:600;font-size:12px}
   .grade-table .ratio{color:var(--orange);font-weight:700;text-align:right}
+  .ending{text-align:center;margin-top:44px;padding-top:36px;border-top:1px solid var(--line)}
+  .ending h2{font-size:40px;font-weight:800;margin-bottom:18px;background:linear-gradient(135deg,var(--cyan),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .ending p{font-size:17px;margin:0 auto 24px}
+  .signature{color:var(--text-dim);font-size:13px;letter-spacing:2px;margin-top:32px}
 
-  /* 寄语 */
-  .ending{
-    text-align:center;min-height:80vh;justify-content:center;align-items:center;
-  }
-  .ending h2{
-    font-size:56px;font-weight:800;margin-bottom:24px;
-    background:linear-gradient(135deg,var(--cyan),var(--orange));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .ending p{font-size:20px;margin:0 auto 32px}
-  .ending .signature{
-    color:var(--text-dim);font-size:14px;letter-spacing:2px;
-    margin-top:48px;padding-top:32px;border-top:1px solid var(--line);
-  }
-
-  /* 底部翻页控制 */
   .nav-bottom{
-    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-    display:flex;gap:10px;align-items:center;
-    background:rgba(10,14,39,.85);backdrop-filter:blur(12px);
-    border:1px solid var(--line);border-radius:99px;
-    padding:8px 12px;z-index:100;
+    position:sticky;bottom:16px;display:flex;gap:8px;align-items:center;justify-content:center;
+    margin:20px auto 0;width:fit-content;
+    background:rgba(10,14,39,.9);backdrop-filter:blur(12px);
+    border:1px solid var(--line);border-radius:99px;padding:6px 10px;z-index:50;
   }
   .nav-btn{
-    width:36px;height:36px;border-radius:50%;
+    width:34px;height:34px;border-radius:50%;
     background:var(--panel);border:1px solid var(--line);
-    color:var(--text);cursor:pointer;font-size:16px;
-    display:flex;align-items:center;justify-content:center;
-    transition:all .2s;
+    color:var(--text);cursor:pointer;font-size:15px;
+    display:flex;align-items:center;justify-content:center;transition:all .2s;
   }
   .nav-btn:hover:not(:disabled){background:var(--cyan);color:#0a0e27;border-color:var(--cyan)}
   .nav-btn:disabled{opacity:.4;cursor:not-allowed}
-  .nav-info{color:var(--text-dim);font-size:13px;padding:0 8px;font-variant-numeric:tabular-nums}
+  .nav-info{color:var(--text-dim);font-size:12px;padding:0 6px;font-variant-numeric:tabular-nums}
 
-  /* 响应式 */
+  /* ===== 预习测试 ===== */
+  .test-head{margin-bottom:26px}
+  .test-info-card{
+    background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.25);border-radius:14px;
+    padding:18px 22px;margin-top:18px;font-size:14px;color:var(--text-dim);
+  }
+  .test-info-card strong{color:var(--cyan)}
+  .q-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:24px;margin-bottom:18px;transition:border-color .3s;
+  }
+  .q-card .q-title{color:#fff;font-size:16px;font-weight:600;margin-bottom:16px}
+  .q-title .q-num{color:var(--cyan);margin-right:8px}
+  .opt{
+    display:flex;align-items:flex-start;gap:12px;padding:12px 16px;
+    border:1px solid var(--line);border-radius:10px;margin-bottom:10px;
+    cursor:pointer;transition:all .2s;font-size:14px;color:var(--text);
+  }
+  .opt:hover{border-color:var(--cyan-dim);background:rgba(0,229,255,.04)}
+  .opt input{margin-top:4px;accent-color:var(--cyan)}
+  .opt.selected{border-color:var(--cyan);background:rgba(0,229,255,.08)}
+  .q-card.correct{border-color:rgba(126,255,139,.5)}
+  .q-card.wrong{border-color:rgba(255,91,91,.5)}
+  .opt.right{border-color:var(--green);background:rgba(126,255,139,.08)}
+  .opt.mistake{border-color:var(--red);background:rgba(255,91,91,.08)}
+  .explain{
+    display:none;margin-top:14px;padding:14px 16px;border-radius:10px;
+    background:rgba(0,229,255,.06);border-left:3px solid var(--cyan);
+    font-size:13px;color:var(--text-dim);
+  }
+  .explain strong{color:var(--cyan)}
+  .q-card.graded .explain{display:block;animation:fadeUp .4s ease}
+  .test-result{
+    display:none;background:linear-gradient(135deg,rgba(0,229,255,.1),rgba(126,255,139,.08));
+    border:1px solid rgba(0,229,255,.35);border-radius:16px;padding:28px;margin-bottom:26px;text-align:center;
+  }
+  .test-result .score{font-size:52px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .test-result .sub{color:var(--text-dim);font-size:14px;margin-top:6px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 28px;border-radius:99px;border:none;cursor:pointer;
+    font-size:15px;font-weight:700;transition:all .25s;font-family:inherit;
+  }
+  .btn-primary{background:linear-gradient(135deg,var(--cyan),var(--cyan-dim));color:#06122a}
+  .btn-primary:hover{box-shadow:0 6px 20px rgba(0,229,255,.35);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--text-dim)}
+  .btn-ghost:hover{border-color:var(--cyan-dim);color:var(--text)}
+  .btn-orange{background:linear-gradient(135deg,var(--orange),#ff6b9d);color:#221005}
+  .btn-orange:hover{box-shadow:0 6px 20px rgba(255,154,60,.35);transform:translateY(-2px)}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+
+  /* ===== 提问 ===== */
+  .ask-input-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:24px}
+  .ask-input-card label{display:block;font-size:13px;color:var(--text-dim);margin-bottom:10px;font-weight:600}
+  .ask-input-card select,.ask-input-card textarea,.ask-input-card input[type=text]{
+    width:100%;background:#0d1330;border:1px solid var(--line);border-radius:10px;
+    color:var(--text);padding:12px 14px;font-size:15px;font-family:inherit;outline:none;transition:border-color .25s;
+  }
+  .ask-input-card textarea{min-height:110px;resize:vertical}
+  .ask-input-card select:focus,.ask-input-card textarea:focus,.ask-input-card input[type=text]:focus{border-color:var(--cyan)}
+  .ask-actions{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;align-items:center}
+  .anonymous-check{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);cursor:pointer;user-select:none}
+  .anonymous-check input{accent-color:var(--cyan);width:15px;height:15px}
+  .q-item{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:18px 22px;margin-bottom:14px;animation:fadeUp .4s ease;
+  }
+  .q-item .q-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:10px;flex-wrap:wrap}
+  .q-item .who{font-size:12px;color:var(--cyan);font-weight:600}
+  .q-item .when{font-size:11px;color:var(--muted)}
+  .q-item .q-body{color:var(--text);font-size:15px}
+  .q-item .tag-chip{font-size:11px;padding:2px 10px;border-radius:99px;background:rgba(255,154,60,.12);color:var(--orange);border:1px solid rgba(255,154,60,.3)}
+  .q-item .del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:4px 8px;border-radius:8px}
+  .q-item .del:hover{color:var(--red)}
+  .empty-tip{
+    text-align:center;padding:50px 20px;color:var(--muted);font-size:14px;
+    border:1px dashed var(--line);border-radius:14px;
+  }
+
+  /* ===== 弹窗 ===== */
+  .modal-mask{
+    position:fixed;inset:0;background:rgba(6,10,28,.75);backdrop-filter:blur(6px);
+    z-index:200;display:none;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-mask.show{display:flex}
+  .modal{
+    background:var(--bg2);border:1px solid var(--line);border-radius:18px;
+    padding:32px;width:100%;max-width:420px;animation:fadeUp .35s ease;
+  }
+  .modal h3{margin-bottom:6px}
+  .modal .modal-sub{font-size:13px;color:var(--text-dim);margin-bottom:20px}
+  .modal .field{margin-bottom:16px}
+  .modal .field label{display:block;font-size:12px;color:var(--text-dim);margin-bottom:6px;font-weight:600}
+  .modal .field input{
+    width:100%;background:#0d1330;border:1px solid var(--line);border-radius:10px;
+    color:var(--text);padding:12px 14px;font-size:15px;outline:none;
+  }
+  .modal .field input:focus{border-color:var(--cyan)}
+  .modal .modal-actions{display:flex;gap:12px;margin-top:8px}
+  .modal .modal-actions .btn{flex:1;justify-content:center}
+
+  .toast{
+    position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);
+    background:var(--panel);border:1px solid var(--cyan);color:var(--text);
+    padding:12px 24px;border-radius:99px;font-size:14px;z-index:300;
+    opacity:0;pointer-events:none;transition:all .35s;box-shadow:0 8px 30px rgba(0,0,0,.4);
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
   @media (max-width:768px){
-    .slide{padding:40px 20px}
-    h1.big-title{font-size:42px}
-    h1.subtitle{font-size:32px}
-    h2.section-title{font-size:26px}
+    .slide{padding:30px 18px}
+    h1.big-title{font-size:38px}
+    h1.subtitle{font-size:28px}
+    h2.section-title{font-size:24px}
     .roadmap,.method-grid,.app-grid{grid-template-columns:1fr}
-    .compare{grid-template-columns:1fr;gap:16px}
-    .compare-vs{font-size:18px}
-    .ending h2{font-size:36px}
+    .compare{grid-template-columns:1fr;gap:14px}
+    .ending h2{font-size:30px}
     .cover-deco{display:none}
+    .view{padding:20px 14px}
   }
 </style>
 </head>
@@ -304,328 +370,692 @@
 </svg>
 </div>
 
-<!-- 顶部进度 -->
+<!-- 顶部导航 -->
 <header class="topbar">
   <div class="brand">模拟电子技术 · 第一节课预习</div>
-  <div class="progress">
-    <div class="dot" data-dot="0"></div>
-    <div class="dot" data-dot="1"></div>
-    <div class="dot" data-dot="2"></div>
-    <div class="dot" data-dot="3"></div>
-    <div class="dot" data-dot="4"></div>
-    <div class="dot" data-dot="5"></div>
-    <div class="dot" data-dot="6"></div>
-    <div class="dot" data-dot="7"></div>
-    <span class="page-info" id="pageInfo">1 / 8</span>
-  </div>
+  <nav class="tabs">
+    <button class="tab active" data-view="home" id="tabHome">导览</button>
+    <button class="tab" data-view="slides" id="tabSlides">课件 <span class="done-mark">✓</span></button>
+    <button class="tab" data-view="test" id="tabTest">预习测试 <span class="done-mark">✓</span></button>
+    <button class="tab" data-view="ask" id="tabAsk">在线提问 <span class="done-mark">✓</span></button>
+  </nav>
+  <div class="user-chip" id="userChip" onclick="openInfoModal()">👤 未登记</div>
 </header>
 
 <main>
 
-<!-- 1. 封面 -->
-<section class="slide cover" data-slide="0">
-  <div class="course-name">ANALOG ELECTRONICS · COURSE PREVIEW</div>
-  <h1 class="big-title">模拟电子技术</h1>
-  <h1 class="subtitle">走进连续信号的<br>电路世界</h1>
-  <p class="lead">从一颗半导体，到一台音响；从一束光，到一台雷达——这门课，帮你读懂身边的电子世界。</p>
-  <div class="meta">
-    <div class="meta-item">授课教师<strong>刘老师</strong></div>
-    <div class="meta-item">课时<strong>第一节课预习</strong></div>
-    <div class="meta-item">形式<strong>课堂互动 · 弹幕 · 答题</strong></div>
+<!-- ============ 视图 1：导览首页 ============ -->
+<section class="view active" id="view-home">
+  <div class="home-hero">
+    <div class="course-name" style="font-size:13px;letter-spacing:6px;color:var(--cyan);font-weight:600;margin-bottom:16px">ANALOG ELECTRONICS · PREVIEW</div>
+    <h1 class="big-title">模拟电子技术<br>第一节预习</h1>
+    <p class="lead" style="margin-top:18px">半导体与 PN 结——整门课的物理起点。完成下面三步，带上问题来上课。</p>
   </div>
-  <svg class="cover-deco" viewBox="0 0 400 400">
-    <defs>
-      <linearGradient id="cg" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#00e5ff" stop-opacity=".6"/>
-        <stop offset="1" stop-color="#ff9a3c" stop-opacity=".6"/>
-      </linearGradient>
-    </defs>
-    <circle cx="200" cy="200" r="160" fill="none" stroke="url(#cg)" stroke-width="1"/>
-    <circle cx="200" cy="200" r="110" fill="none" stroke="#00e5ff" stroke-width="1" opacity=".5"/>
-    <circle cx="200" cy="200" r="60" fill="none" stroke="#ff9a3c" stroke-width="1" opacity=".5"/>
-    <circle cx="200" cy="200" r="8" fill="#00e5ff"/>
-    <text x="200" y="40" text-anchor="middle" fill="#00e5ff" font-size="11" letter-spacing="3">ANALOG · ELECTRONICS</text>
-  </svg>
-</section>
-
-<!-- 2. 为什么学 -->
-<section class="slide" data-slide="1" style="display:none">
-  <span class="slide-tag">PART 01 · 为什么学</span>
-  <h2 class="section-title">你每天都在用，却不一定懂它</h2>
-  <p class="lead">模拟电子技术不是抽象的理论，而是藏在每一台"会响、会亮、会动"的设备里。</p>
-  <div class="app-grid">
-    <div class="app-card">
-      <div class="app-icon">🎵</div>
-      <div><h4>音响 & 耳机</h4><p>运算放大器把微弱的音频信号放大成推动喇叭的功率</p></div>
-    </div>
-    <div class="app-card">
-      <div class="app-icon orange">📱</div>
-      <div><h4>手机充电器</h4><p>整流 + 滤波 + 稳压——把交流电变成稳定的直流电</p></div>
-    </div>
-    <div class="app-card">
-      <div class="app-icon green">🌡️</div>
-      <div><h4>温度传感器</h4><p>微弱的模拟信号需要放大电路才能被单片机"看见"</p></div>
-    </div>
-    <div class="app-card">
-      <div class="app-icon pink">🚗</div>
-      <div><h4>汽车电子</h4><p>电池管理、传感器接口、动力控制都离不开模拟前端</p></div>
-    </div>
-    <div class="app-card">
-      <div class="app-icon">🩺</div>
-      <div><h4>医疗仪器</h4><p>心电图、脑电波——都是微弱的模拟生理电信号</p></div>
-    </div>
-    <div class="app-card">
-      <div class="app-icon orange">📡</div>
-      <div><h4>5G / Wi-Fi</h4><p>射频前端全是模拟电路——放大、混频、滤波</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 3. 课程地图 -->
-<section class="slide" data-slide="2" style="display:none">
-  <span class="slide-tag orange">PART 02 · 课程地图</span>
-  <h2 class="section-title">一学期，我们要走过的路</h2>
-  <p class="lead">从元器件到系统级设计，从理论分析到动手仿真——一条由浅入深的电路进阶之路。</p>
-  <div class="roadmap">
-    <div class="rm-card"><div class="num">CHAPTER 01</div><h4>半导体基础</h4><p>PN 结、二极管、伏安曲线</p></div>
-    <div class="rm-card"><div class="num">CHAPTER 02</div><h4>晶体管</h4><p>BJT 与 MOSFET 的工作原理</p></div>
-    <div class="rm-card"><div class="num">CHAPTER 03</div><h4>基本放大电路</h4><p>共射、共集、共基放大器</p></div>
-    <div class="rm-card"><div class="num">CHAPTER 04</div><h4>放大器的频率响应</h4><p>高通、低通、带宽分析</p></div>
-    <div class="rm-card"><div class="num">CHAPTER 05</div><h4>运算放大器</h4><p>虚短虚断，深度负反馈</p></div>
-    <div class="rm-card"><div class="num">CHAPTER 06</div><h4>反馈与稳定性</h4><p>四种反馈组态，相位补偿</p></div>
-    <div class="rm-card"><div class="num">CHAPTER 07</div><h4>信号产生电路</h4><p>正弦波、方波、三角波</p></div>
-    <div class="rm-card"><div class="num">CHAPTER 08</div><h4>直流稳压电源</h4><p>整流、滤波、串联稳压</p></div>
-    <div class="rm-card"><div class="num">CHAPTER 09</div><h4>应用电路综合</h4><p>从设计到仿真到调试</p></div>
-  </div>
-</section>
-
-<!-- 4. 模拟 vs 数字 -->
-<section class="slide" data-slide="3" style="display:none">
-  <span class="slide-tag green">PART 03 · 模拟 vs 数字</span>
-  <h2 class="section-title">一句话：连续 vs 离散</h2>
-  <p class="lead">模拟电子技术的核心对象，是<strong style="color:var(--cyan)">随时间连续变化的电信号</strong>。数字电路处理的是"0/1"，而我们要处理的是"温度/速度/声音"。</p>
-  <div class="compare">
-    <div class="compare-side analog">
-      <h3>模拟信号</h3>
-      <p style="color:var(--text-dim);font-size:13px">Analog · 连续</p>
-      <div class="wave-box">
-        <svg viewBox="0 0 240 80" width="100%" height="80">
-          <path d="M 0 40 Q 30 10 60 40 T 120 40 T 180 40 T 240 40" fill="none" stroke="#00e5ff" stroke-width="2"/>
-        </svg>
-      </div>
-      <table class="compare-table">
-        <tr><th>特点</th><th>说明</th></tr>
-        <tr><td>取值</td><td>连续，可取任意值</td></tr>
-        <tr><td>抗干扰</td><td>较弱</td></tr>
-        <tr><td>典型器件</td><td>运放、二极管、MOSFET</td></tr>
-        <tr><td>典型应用</td><td>音频、传感、射频</td></tr>
-      </table>
-    </div>
-    <div class="compare-vs">VS</div>
-    <div class="compare-side digital">
-      <h3>数字信号</h3>
-      <p style="color:var(--text-dim);font-size:13px">Digital · 离散</p>
-      <div class="wave-box">
-        <svg viewBox="0 0 240 80" width="100%" height="80">
-          <path d="M 0 60 L 0 20 L 40 20 L 40 60 L 80 60 L 80 20 L 120 20 L 120 60 L 160 60 L 160 20 L 200 20 L 200 60 L 240 60 L 240 20" fill="none" stroke="#ff9a3c" stroke-width="2"/>
-        </svg>
-      </div>
-      <table class="compare-table">
-        <tr><th>特点</th><th>说明</th></tr>
-        <tr><td>取值</td><td>离散，仅 0 和 1</td></tr>
-        <tr><td>抗干扰</td><td>强</td></tr>
-        <tr><td>典型器件</td><td>门电路、触发器、单片机</td></tr>
-        <tr><td>典型应用</td><td>计算、控制、通信协议</td></tr>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- 5. 第一节课预告 -->
-<section class="slide" data-slide="4" style="display:none">
-  <span class="slide-tag pink">PART 04 · 第一节课预告</span>
-  <h2 class="section-title">下次课，我们从这里开始</h2>
-  <p class="lead">第一节课正式内容：<strong style="color:var(--cyan)">半导体基础与 PN 结</strong>——这是整门课的物理起点。</p>
-  <div class="preview-card">
-    <h2>📌 课程主题</h2>
-    <p style="font-size:18px;color:#fff;margin-top:8px">半导体材料 · PN 结形成 · 二极管结构 · 伏安特性曲线</p>
-    <h3 style="margin-top:24px">🎯 你将掌握</h3>
-    <ul style="list-style:none;color:var(--text);font-size:15px;line-height:2">
-      <li>· 理解本征半导体、杂质半导体的导电机理</li>
-      <li>· 掌握 PN 结的形成与单向导电性</li>
-      <li>· 能看懂二极管的伏安特性曲线</li>
-      <li>· 区分正向导通、反向截止、反向击穿三种状态</li>
-    </ul>
-    <h3 style="margin-top:24px">🔑 关键词</h3>
-    <div class="keywords">
-      <span class="kw">半导体</span>
-      <span class="kw orange">本征激发</span>
-      <span class="kw">P 型 / N 型</span>
-      <span class="kw orange">PN 结</span>
-      <span class="kw">空间电荷区</span>
-      <span class="kw orange">单向导电</span>
-      <span class="kw">伏安特性</span>
-    </div>
-  </div>
-</section>
-
-<!-- 6. 课前思考题 -->
-<section class="slide" data-slide="5" style="display:none">
-  <span class="slide-tag">PART 05 · 课前 3 问</span>
-  <h2 class="section-title">带着问题来上课</h2>
-  <p class="lead">点击问题，展开我的一点思路提示——但更期待在课堂上和你碰撞出真答案。</p>
-  <div class="qa-list">
-    <div class="qa-item" onclick="this.classList.toggle('open')">
-      <div class="qa-num">1</div>
-      <div class="qa-text">
-        <h4>为什么硅是目前最主流的半导体材料，而不是铜或铝？</h4>
-        <p>提示：想想"半导体"和"导体"在导电能力上的根本差异。</p>
-        <div class="qa-hint">💡 答案要点：硅的导电能力介于导体与绝缘体之间；可通过掺杂精确控制其导电特性；地壳含量丰富，工艺成熟。</div>
-      </div>
-    </div>
-    <div class="qa-item" onclick="this.classList.toggle('open')">
-      <div class="qa-num">2</div>
-      <div class="qa-text">
-        <h4>把 P 型和 N 型半导体"贴"在一起，会发生什么？</h4>
-        <p>提示：注意载流子的扩散运动和内电场的建立。</p>
-        <div class="qa-hint">💡 答案要点：多数载流子扩散 → 形成空间电荷区 → 产生内建电场 → 达到动态平衡。这就是 PN 结。</div>
-      </div>
-    </div>
-    <div class="qa-item" onclick="this.classList.toggle('open')">
-      <div class="qa-num">3</div>
-      <div class="qa-text">
-        <h4>为什么二极管"只让电流单向通过"？这个特性在生活里能解决什么问题？</h4>
-        <p>提示：想想家里插座、充电器里的整流桥。</p>
-        <div class="qa-hint">💡 答案要点：交流电是双向的，电子设备需要直流电；二极管单向导电 → 整流 → 得到直流。整流桥由 4 个二极管组成。</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 7. 学习方式 -->
-<section class="slide" data-slide="6" style="display:none">
-  <span class="slide-tag orange">PART 06 · 学习方式</span>
-  <h2 class="section-title">这门课，我们一起这样学</h2>
-  <p class="lead">不只是听讲——课堂是讨论场、实验场、试错场。</p>
-  <div class="method-grid">
-    <div class="method">
+  <div class="module-grid">
+    <div class="module-card" onclick="switchView('slides')">
+      <span class="m-state" id="stateSlides">待学习</span>
       <div class="m-icon">📖</div>
-      <h4>课前预习</h4>
-      <p>带着问题进入课堂<br>不再被动接收</p>
+      <h3>浏览课件</h3>
+      <p>8 页预习课件：课程介绍、模拟 vs 数字、第一节课预告</p>
+      <span class="go">进入 →</span>
     </div>
-    <div class="method">
-      <div class="m-icon">💬</div>
-      <h4>课堂互动</h4>
-      <p>弹幕、答题、提问<br>随时打断、随时讨论</p>
-    </div>
-    <div class="method">
-      <div class="m-icon">🛠️</div>
-      <h4>动手仿真</h4>
-      <p>Multisim / LTspice<br>每个电路亲手搭出来</p>
-    </div>
-    <div class="method">
+    <div class="module-card" onclick="switchView('test')">
+      <span class="m-state" id="stateTest">未完成</span>
       <div class="m-icon">📝</div>
-      <h4>课后巩固</h4>
-      <p>课后测试 + 习题讲解<br>错题不过夜</p>
+      <h3>预习测试</h3>
+      <p>5 道选择题，检验预习效果，即时判分与解析</p>
+      <span class="go">开始 →</span>
     </div>
-    <div class="method">
-      <div class="m-icon">👥</div>
-      <h4>小组协作</h4>
-      <p>3-4 人项目小组<br>分工、讨论、共建</p>
-    </div>
-    <div class="method">
-      <div class="m-icon">🚀</div>
-      <h4>开放加分</h4>
-      <p>课外项目、竞赛、科研<br>敢挑战就有奖励</p>
+    <div class="module-card" onclick="switchView('ask')">
+      <span class="m-state" id="stateAsk">未提问</span>
+      <div class="m-icon">💬</div>
+      <h3>在线提问</h3>
+      <p>预习中遇到的疑问，提前告诉老师，课堂针对性讲解</p>
+      <span class="go">提问 →</span>
     </div>
   </div>
   <div class="platform-note">
-    <h4>🎯 关于课堂互动平台</h4>
-    <p>本课将启用"模拟电子技术互动平台"——你可以通过手机参与弹幕讨论、随堂答题、匿名提问。课堂上看到的每一个反馈，都会被纳入到教学的实时调整中。</p>
+    <h4>🎯 使用说明</h4>
+    <p>建议按「课件 → 测试 → 提问」的顺序完成。测试成绩与提问记录会计入课堂参与度（课前预习测试占平时分 10%）。本页进度自动保存在你的设备上，中途退出不会丢失。</p>
   </div>
 </section>
 
-<!-- 8. 考核 & 寄语 -->
-<section class="slide" data-slide="7" style="display:none">
-  <span class="slide-tag green">PART 07 · 考核 & 寄语</span>
-  <h2 class="section-title">透明的规则 + 不变的期待</h2>
-  <p class="lead">考核方式透明公开——你的每一份投入都会被看见。</p>
-  <table class="grade-table">
-    <thead>
-      <tr><th style="width:40%">考核项</th><th>说明</th><th class="ratio" style="width:15%">占比</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>课堂互动</td><td>弹幕、答题、提问、签到</td><td class="ratio">15%</td></tr>
-      <tr><td>课后作业 / 习题</td><td>每章 1-2 次，含仿真验证</td><td class="ratio">20%</td></tr>
-      <tr><td>课前预习测试</td><td>每次课前 3-5 题</td><td class="ratio">10%</td></tr>
-      <tr><td>课后测试</td><td>每章一次，含主观分析题</td><td class="ratio">15%</td></tr>
-      <tr><td>小组项目</td><td>2-3 人小组，完成应用电路设计</td><td class="ratio">20%</td></tr>
-      <tr><td>期末考试</td><td>闭卷，含分析与设计</td><td class="ratio">20%</td></tr>
-    </tbody>
-  </table>
-  <div class="ending" style="min-height:auto;margin-top:48px">
-    <h2>电路已通电，等你上线</h2>
-    <p>这门课没有"学不会"的学生，只有还没找到自己节奏的电路。<br>愿你在这个学期，把每一个"为什么"都焊接到自己的知识版图上。</p>
-    <div class="signature">— 刘老师 · 模拟电子技术 · 第一节课 —</div>
+<!-- ============ 视图 2：课件 ============ -->
+<section class="view" id="view-slides">
+  <div class="slide-wrap">
+    <!-- 1. 封面 -->
+    <section class="slide cover" data-slide="0">
+      <div class="course-name">ANALOG ELECTRONICS · COURSE PREVIEW</div>
+      <h1 class="big-title" style="font-size:44px">模拟电子技术</h1>
+      <h1 class="subtitle">走进连续信号的<br>电路世界</h1>
+      <p class="lead">从一颗半导体，到一台音响；从一束光，到一台雷达——这门课，帮你读懂身边的电子世界。</p>
+      <div class="meta">
+        <div class="meta-item">授课教师<strong>刘老师</strong></div>
+        <div class="meta-item">课时<strong>第一节课预习</strong></div>
+        <div class="meta-item">形式<strong>课堂互动 · 弹幕 · 答题</strong></div>
+      </div>
+      <svg class="cover-deco" viewBox="0 0 400 400">
+        <defs>
+          <linearGradient id="cg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#00e5ff" stop-opacity=".6"/>
+            <stop offset="1" stop-color="#ff9a3c" stop-opacity=".6"/>
+          </linearGradient>
+        </defs>
+        <circle cx="200" cy="200" r="160" fill="none" stroke="url(#cg)" stroke-width="1"/>
+        <circle cx="200" cy="200" r="110" fill="none" stroke="#00e5ff" stroke-width="1" opacity=".5"/>
+        <circle cx="200" cy="200" r="60" fill="none" stroke="#ff9a3c" stroke-width="1" opacity=".5"/>
+        <circle cx="200" cy="200" r="8" fill="#00e5ff"/>
+      </svg>
+    </section>
+
+    <!-- 2. 为什么学 -->
+    <section class="slide" data-slide="1" style="display:none">
+      <span class="slide-tag">PART 01 · 为什么学</span>
+      <h2 class="section-title">你每天都在用，却不一定懂它</h2>
+      <p class="lead">模拟电子技术不是抽象的理论，而是藏在每一台"会响、会亮、会动"的设备里。</p>
+      <div class="app-grid">
+        <div class="app-card"><div class="app-icon">🎵</div><div><h4>音响 & 耳机</h4><p>运算放大器把微弱的音频信号放大成推动喇叭的功率</p></div></div>
+        <div class="app-card"><div class="app-icon orange">📱</div><div><h4>手机充电器</h4><p>整流 + 滤波 + 稳压——把交流电变成稳定的直流电</p></div></div>
+        <div class="app-card"><div class="app-icon green">🌡️</div><div><h4>温度传感器</h4><p>微弱的模拟信号需要放大电路才能被单片机"看见"</p></div></div>
+        <div class="app-card"><div class="app-icon pink">🚗</div><div><h4>汽车电子</h4><p>电池管理、传感器接口、动力控制都离不开模拟前端</p></div></div>
+        <div class="app-card"><div class="app-icon">🩺</div><div><h4>医疗仪器</h4><p>心电图、脑电波——都是微弱的模拟生理电信号</p></div></div>
+        <div class="app-card"><div class="app-icon orange">📡</div><div><h4>5G / Wi-Fi</h4><p>射频前端全是模拟电路——放大、混频、滤波</p></div></div>
+      </div>
+    </section>
+
+    <!-- 3. 课程地图 -->
+    <section class="slide" data-slide="2" style="display:none">
+      <span class="slide-tag orange">PART 02 · 课程地图</span>
+      <h2 class="section-title">一学期，我们要走过的路</h2>
+      <p class="lead">从元器件到系统级设计，从理论分析到动手仿真——一条由浅入深的电路进阶之路。</p>
+      <div class="roadmap">
+        <div class="rm-card"><div class="num">CHAPTER 01</div><h4>半导体基础</h4><p>PN 结、二极管、伏安曲线</p></div>
+        <div class="rm-card"><div class="num">CHAPTER 02</div><h4>晶体管</h4><p>BJT 与 MOSFET 的工作原理</p></div>
+        <div class="rm-card"><div class="num">CHAPTER 03</div><h4>基本放大电路</h4><p>共射、共集、共基放大器</p></div>
+        <div class="rm-card"><div class="num">CHAPTER 04</div><h4>放大器的频率响应</h4><p>高通、低通、带宽分析</p></div>
+        <div class="rm-card"><div class="num">CHAPTER 05</div><h4>运算放大器</h4><p>虚短虚断，深度负反馈</p></div>
+        <div class="rm-card"><div class="num">CHAPTER 06</div><h4>反馈与稳定性</h4><p>四种反馈组态，相位补偿</p></div>
+        <div class="rm-card"><div class="num">CHAPTER 07</div><h4>信号产生电路</h4><p>正弦波、方波、三角波</p></div>
+        <div class="rm-card"><div class="num">CHAPTER 08</div><h4>直流稳压电源</h4><p>整流、滤波、串联稳压</p></div>
+        <div class="rm-card"><div class="num">CHAPTER 09</div><h4>应用电路综合</h4><p>从设计到仿真到调试</p></div>
+      </div>
+    </section>
+
+    <!-- 4. 模拟 vs 数字 -->
+    <section class="slide" data-slide="3" style="display:none">
+      <span class="slide-tag green">PART 03 · 模拟 vs 数字</span>
+      <h2 class="section-title">一句话：连续 vs 离散</h2>
+      <p class="lead">模拟电子技术的核心对象，是<strong style="color:var(--cyan)">随时间连续变化的电信号</strong>。数字电路处理的是"0/1"，而我们要处理的是"温度/速度/声音"。</p>
+      <div class="compare">
+        <div class="compare-side analog">
+          <h3>模拟信号</h3>
+          <p style="color:var(--text-dim);font-size:13px">Analog · 连续</p>
+          <div class="wave-box">
+            <svg viewBox="0 0 240 80" width="100%" height="70">
+              <path d="M 0 40 Q 30 10 60 40 T 120 40 T 180 40 T 240 40" fill="none" stroke="#00e5ff" stroke-width="2"/>
+            </svg>
+          </div>
+          <table class="compare-table">
+            <tr><th>特点</th><th>说明</th></tr>
+            <tr><td>取值</td><td>连续，可取任意值</td></tr>
+            <tr><td>抗干扰</td><td>较弱</td></tr>
+            <tr><td>典型器件</td><td>运放、二极管、MOSFET</td></tr>
+            <tr><td>典型应用</td><td>音频、传感、射频</td></tr>
+          </table>
+        </div>
+        <div class="compare-vs">VS</div>
+        <div class="compare-side digital">
+          <h3>数字信号</h3>
+          <p style="color:var(--text-dim);font-size:13px">Digital · 离散</p>
+          <div class="wave-box">
+            <svg viewBox="0 0 240 80" width="100%" height="70">
+              <path d="M 0 60 L 0 20 L 40 20 L 40 60 L 80 60 L 80 20 L 120 20 L 120 60 L 160 60 L 160 20 L 200 20 L 200 60 L 240 60 L 240 20" fill="none" stroke="#ff9a3c" stroke-width="2"/>
+            </svg>
+          </div>
+          <table class="compare-table">
+            <tr><th>特点</th><th>说明</th></tr>
+            <tr><td>取值</td><td>离散，仅 0 和 1</td></tr>
+            <tr><td>抗干扰</td><td>强</td></tr>
+            <tr><td>典型器件</td><td>门电路、触发器、单片机</td></tr>
+            <tr><td>典型应用</td><td>计算、控制、通信协议</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 第一节课预告 -->
+    <section class="slide" data-slide="4" style="display:none">
+      <span class="slide-tag pink">PART 04 · 第一节课预告</span>
+      <h2 class="section-title">第一节课，我们从这里开始</h2>
+      <p class="lead">第一节课正式内容：<strong style="color:var(--cyan)">半导体基础与 PN 结</strong>——这是整门课的物理起点。</p>
+      <div class="preview-card">
+        <h2>📌 课程主题</h2>
+        <p style="font-size:17px;color:#fff;margin-top:8px">半导体材料 · PN 结形成 · 二极管结构 · 伏安特性曲线</p>
+        <h3 style="margin-top:22px">🎯 你将掌握</h3>
+        <ul style="list-style:none;color:var(--text);font-size:14px;line-height:2">
+          <li>· 理解本征半导体、杂质半导体的导电机理</li>
+          <li>· 掌握 PN 结的形成与单向导电性</li>
+          <li>· 能看懂二极管的伏安特性曲线</li>
+          <li>· 区分正向导通、反向截止、反向击穿三种状态</li>
+        </ul>
+        <h3 style="margin-top:22px">🔑 关键词</h3>
+        <div class="keywords">
+          <span class="kw">半导体</span>
+          <span class="kw orange">本征激发</span>
+          <span class="kw">P 型 / N 型</span>
+          <span class="kw orange">PN 结</span>
+          <span class="kw">空间电荷区</span>
+          <span class="kw orange">单向导电</span>
+          <span class="kw">伏安特性</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. 课前思考题 -->
+    <section class="slide" data-slide="5" style="display:none">
+      <span class="slide-tag">PART 05 · 课前 3 问</span>
+      <h2 class="section-title">带着问题来上课</h2>
+      <p class="lead">点击问题，展开一点思路提示——更期待在课堂上和你碰撞出真答案。</p>
+      <div class="qa-list">
+        <div class="qa-item" onclick="this.classList.toggle('open')">
+          <div class="qa-num">1</div>
+          <div class="qa-text">
+            <h4>为什么硅是目前最主流的半导体材料，而不是铜或铝？</h4>
+            <p>提示：想想"半导体"和"导体"在导电能力上的根本差异。</p>
+            <div class="qa-hint">💡 答案要点：硅的导电能力介于导体与绝缘体之间；可通过掺杂精确控制其导电特性；地壳含量丰富，工艺成熟。</div>
+          </div>
+        </div>
+        <div class="qa-item" onclick="this.classList.toggle('open')">
+          <div class="qa-num">2</div>
+          <div class="qa-text">
+            <h4>把 P 型和 N 型半导体"贴"在一起，会发生什么？</h4>
+            <p>提示：注意载流子的扩散运动和内电场的建立。</p>
+            <div class="qa-hint">💡 答案要点：多数载流子扩散 → 形成空间电荷区 → 产生内建电场 → 达到动态平衡。这就是 PN 结。</div>
+          </div>
+        </div>
+        <div class="qa-item" onclick="this.classList.toggle('open')">
+          <div class="qa-num">3</div>
+          <div class="qa-text">
+            <h4>为什么二极管"只让电流单向通过"？这个特性在生活里能解决什么问题？</h4>
+            <p>提示：想想家里插座、充电器里的整流桥。</p>
+            <div class="qa-hint">💡 答案要点：交流电是双向的，电子设备需要直流电；二极管单向导电 → 整流 → 得到直流。整流桥由 4 个二极管组成。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. 学习方式 -->
+    <section class="slide" data-slide="6" style="display:none">
+      <span class="slide-tag orange">PART 06 · 学习方式</span>
+      <h2 class="section-title">这门课，我们一起这样学</h2>
+      <p class="lead">不只是听讲——课堂是讨论场、实验场、试错场。</p>
+      <div class="method-grid">
+        <div class="method"><div class="m-icon">📖</div><h4>课前预习</h4><p>带着问题进入课堂<br>不再被动接收</p></div>
+        <div class="method"><div class="m-icon">💬</div><h4>课堂互动</h4><p>弹幕、答题、提问<br>随时打断、随时讨论</p></div>
+        <div class="method"><div class="m-icon">🛠️</div><h4>动手仿真</h4><p>Multisim / LTspice<br>每个电路亲手搭出来</p></div>
+        <div class="method"><div class="m-icon">📝</div><h4>课后巩固</h4><p>课后测试 + 习题讲解<br>错题不过夜</p></div>
+        <div class="method"><div class="m-icon">👥</div><h4>小组协作</h4><p>3-4 人项目小组<br>分工、讨论、共建</p></div>
+        <div class="method"><div class="m-icon">🚀</div><h4>开放加分</h4><p>课外项目、竞赛、科研<br>敢挑战就有奖励</p></div>
+      </div>
+      <div class="platform-note">
+        <h4>🎯 关于课堂互动平台</h4>
+        <p>本课将启用"模拟电子技术互动平台"——你可以通过手机参与弹幕讨论、随堂答题、匿名提问。</p>
+      </div>
+    </section>
+
+    <!-- 8. 考核 & 寄语 -->
+    <section class="slide" data-slide="7" style="display:none">
+      <span class="slide-tag green">PART 07 · 考核 & 寄语</span>
+      <h2 class="section-title">透明的规则 + 不变的期待</h2>
+      <p class="lead">考核方式透明公开——你的每一份投入都会被看见。</p>
+      <table class="grade-table">
+        <thead><tr><th style="width:40%">考核项</th><th>说明</th><th class="ratio" style="width:15%">占比</th></tr></thead>
+        <tbody>
+          <tr><td>课堂互动</td><td>弹幕、答题、提问、签到</td><td class="ratio">15%</td></tr>
+          <tr><td>课后作业 / 习题</td><td>每章 1-2 次，含仿真验证</td><td class="ratio">20%</td></tr>
+          <tr><td>课前预习测试</td><td>每次课前 3-5 题</td><td class="ratio">10%</td></tr>
+          <tr><td>课后测试</td><td>每章一次，含主观分析题</td><td class="ratio">15%</td></tr>
+          <tr><td>小组项目</td><td>2-3 人小组，完成应用电路设计</td><td class="ratio">20%</td></tr>
+          <tr><td>期末考试</td><td>闭卷，含分析与设计</td><td class="ratio">20%</td></tr>
+        </tbody>
+      </table>
+      <div class="ending">
+        <h2>电路已通电，等你上线</h2>
+        <p>这门课没有"学不会"的学生，只有还没找到自己节奏的电路。</p>
+        <div class="signature">— 刘老师 · 模拟电子技术 · 第一节课 —</div>
+      </div>
+    </section>
   </div>
+
+  <div class="nav-bottom">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">←</button>
+    <span class="nav-info" id="navInfo">1 / 8</span>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+  </div>
+  <div style="text-align:center;margin-top:26px">
+    <button class="btn btn-primary" onclick="markSlidesDone()">我看完了，去测试 →</button>
+  </div>
+</section>
+
+<!-- ============ 视图 3：预习测试 ============ -->
+<section class="view" id="view-test">
+  <div class="test-head">
+    <span class="slide-tag green">PREVIEW TEST · 预习测试</span>
+    <h2 class="section-title">预习效果自测</h2>
+    <p class="lead">5 道选择题，10 分钟内完成。提交后即时判分，并给出解析——答错也没关系，带着疑问来课堂。</p>
+    <div class="test-info-card">
+      📌 测试内容围绕第一节课<strong>「半导体基础与 PN 结」</strong>预习要点，可参考课件 PART 04-05。成绩计入平时分（课前预习测试 10%），<strong>以最高分记录</strong>，可重做。
+    </div>
+  </div>
+
+  <div class="test-result" id="testResult">
+    <div class="score" id="scoreNum">--</div>
+    <div class="sub" id="scoreSub"></div>
+    <div style="margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="resetTest()">重做一次</button>
+      <button class="btn btn-orange" onclick="switchView('ask')">还有疑问？去提问 →</button>
+    </div>
+  </div>
+
+  <div id="quizArea"></div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+    <button class="btn btn-primary" id="submitTest" onclick="submitTest()">提交答卷</button>
+    <button class="btn btn-ghost" onclick="resetTest()" id="retestBtn" style="display:none">重做一次</button>
+  </div>
+</section>
+
+<!-- ============ 视图 4：在线提问 ============ -->
+<section class="view" id="view-ask">
+  <div class="test-head">
+    <span class="slide-tag pink">Q&A · 在线提问</span>
+    <h2 class="section-title">预习中的疑问，提前告诉我</h2>
+    <p class="lead">看不懂的概念、想不通的电路、对课程的好奇——都欢迎。老师会在第一节课上集中回应高频问题。</p>
+  </div>
+
+  <div class="ask-input-card">
+    <label>问题分类</label>
+    <select id="askTag">
+      <option value="概念理解">概念理解（如：什么是空穴？）</option>
+      <option value="原理疑惑">原理疑惑（如：内电场怎么形成的？）</option>
+      <option value="应用好奇">应用好奇（如：二极管在手机里干嘛？）</option>
+      <option value="课程安排">课程安排（作业、考核、实验）</option>
+      <option value="其他">其他</option>
+    </select>
+    <div style="height:16px"></div>
+    <label>你的问题</label>
+    <textarea id="askText" placeholder="尽量具体地描述你的疑问，例如：&quot;P 型半导体里空穴是真实存在的粒子吗？&quot;"></textarea>
+    <div class="ask-actions">
+      <button class="btn btn-primary" onclick="submitQuestion()">提交问题</button>
+      <label class="anonymous-check"><input type="checkbox" id="askAnonymous" checked> 匿名提交</label>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <h3 style="margin:0">📋 我提交的问题（<span id="qCount">0</span>）</h3>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-ghost" style="padding:8px 18px;font-size:13px" onclick="copyReceipt()">📋 复制预习回执</button>
+      <button class="btn btn-ghost" style="padding:8px 18px;font-size:13px" onclick="clearQuestions()">清空</button>
+    </div>
+  </div>
+  <div id="qList"></div>
 </section>
 
 </main>
 
-<!-- 底部翻页 -->
-<div class="nav-bottom">
-  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">←</button>
-  <span class="nav-info" id="navInfo">1 / 8</span>
-  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+<!-- 学生信息弹窗 -->
+<div class="modal-mask" id="infoModal">
+  <div class="modal">
+    <h3>👤 登记信息</h3>
+    <div class="modal-sub">测试成绩与提问需要实名记录，请填写你的基本信息</div>
+    <div class="field">
+      <label>姓名</label>
+      <input type="text" id="inputName" placeholder="请输入姓名" maxlength="20">
+    </div>
+    <div class="field">
+      <label>学号</label>
+      <input type="text" id="inputSid" placeholder="请输入学号" maxlength="15">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeInfoModal()">取消</button>
+      <button class="btn btn-primary" onclick="saveInfo()">确认</button>
+    </div>
+  </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-  const slides = document.querySelectorAll('.slide');
-  const dots = document.querySelectorAll('.topbar .dot');
-  const pageInfo = document.getElementById('pageInfo');
-  const navInfo = document.getElementById('navInfo');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  let current = 0;
-  const total = slides.length;
+/* ================= 配置区 ================= */
+const CONFIG = {
+  courseId: '模电-第1节-半导体与PN结',
+  // 后续接入后端时填写提交接口（如 WebSocket / 表单 URL），留空则使用本地保存 + 回执复制
+  submitUrl: ''
+};
 
-  function show(i){
-    if(i<0||i>=total) return;
-    slides.forEach((s,idx)=> s.style.display = idx===i ? 'flex' : 'none');
-    dots.forEach((d,idx)=> d.classList.toggle('active', idx===i));
-    pageInfo.textContent = (i+1) + ' / ' + total;
-    navInfo.textContent = (i+1) + ' / ' + total;
-    prevBtn.disabled = i===0;
-    nextBtn.disabled = i===total-1;
-    current = i;
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
+/* ================= 本地存储 ================= */
+const store = {
+  get(k, d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch(e){ return d } },
+  set(k, v){ localStorage.setItem(k, JSON.stringify(v)) }
+};
+const K = { info:'yxdz_info', test:'yxdz_test', qs:'yxdz_questions', slides:'yxdz_slides_done', lastSlide:'yxdz_last_slide', answers:'yxdz_answers' };
 
-  function changeSlide(d){
-    show(current + d);
-  }
+/* ================= 视图切换 ================= */
+function switchView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.view===name));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>switchView(t.dataset.view));
+});
 
-  // 键盘翻页
-  document.addEventListener('keydown', e=>{
+/* ================= 课件翻页 ================= */
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+const total = slides.length;
+const navInfo = document.getElementById('navInfo');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+function show(i){
+  if(i<0||i>=total) return;
+  slides.forEach((s,idx)=> s.style.display = idx===i ? 'flex' : 'none');
+  navInfo.textContent = (i+1) + ' / ' + total;
+  prevBtn.disabled = i===0;
+  nextBtn.disabled = i===total-1;
+  current = i;
+  store.set(K.lastSlide, i);
+}
+function changeSlide(d){ show(current + d); }
+document.addEventListener('keydown', e=>{
+  if(document.getElementById('view-slides').classList.contains('active')){
     if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); changeSlide(1); }
     if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); changeSlide(-1); }
+  }
+});
+let tx=0;
+document.addEventListener('touchstart',e=>{ tx=e.touches[0].clientX; },{passive:true});
+document.addEventListener('touchend',e=>{
+  if(!document.getElementById('view-slides').classList.contains('active')) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  if(Math.abs(dx)>50){ changeSlide(dx<0?1:-1); }
+},{passive:true});
+
+function markSlidesDone(){
+  store.set(K.slidesDone, true);
+  refreshStatus();
+  toast('课件学习已完成 ✓');
+  setTimeout(()=>switchView('test'), 600);
+}
+
+/* ================= 预习测试 ================= */
+const QUESTIONS = [
+  {
+    q: '关于半导体材料的导电能力，下列说法正确的是：',
+    opts: ['和铜、铝一样，属于良导体','完全不导电，属于绝缘体','介于导体和绝缘体之间，可通过掺杂精确控制','只在光照下才导电'],
+    a: 2,
+    ex: '半导体的导电能力介于导体与绝缘体之间，且可通过掺入杂质（掺杂）精确控制导电特性——这正是半导体能做出各种器件的关键。'
+  },
+  {
+    q: '在纯净的硅晶体中掺入少量磷（P）元素后，形成的 N 型半导体中多数载流子是：',
+    opts: ['自由电子','空穴','正离子','负离子'],
+    a: 0,
+    ex: '磷是五价元素，提供自由电子，形成 N 型半导体，多数载流子为自由电子；若掺入三价元素（如硼），则形成 P 型，多数载流子为空穴。'
+  },
+  {
+    q: 'P 型半导体与 N 型半导体结合后，交界面附近形成的空间电荷区（耗尽层）是怎么产生的？',
+    opts: ['外加电源强行注入电荷','多数载流子相互扩散后，留下不能移动的正负离子','温度升高本征激发产生','金属电极接触感应产生'],
+    a: 1,
+    ex: 'P 区空穴向 N 区扩散、N 区电子向 P 区扩散，复合后交界面留下不能移动的正负杂质离子，形成空间电荷区，并建立内建电场，阻止进一步扩散，最终达到动态平衡。'
+  },
+  {
+    q: '硅二极管正向导通后，其两端电压降约为：',
+    opts: ['0.1 V 左右','0.3 V 左右','0.7 V 左右','3 V 左右'],
+    a: 2,
+    ex: '硅二极管正向导通压降约 0.7 V，锗二极管约 0.3 V。这是分析二极管电路的重要参数。'
+  },
+  {
+    q: '利用二极管的单向导电性，将交流电变换为脉动直流电的过程称为：',
+    opts: ['放大','滤波','整流','稳压'],
+    a: 2,
+    ex: '整流是利用二极管单向导电性把交流变成脉动直流；再经滤波得到平滑直流、经稳压得到稳定直流。手机充电器里就有这套流程。'
+  }
+];
+
+const quizArea = document.getElementById('quizArea');
+let myAnswers = store.get(K.answers, {});
+
+function renderQuiz(){
+  quizArea.innerHTML = '';
+  QUESTIONS.forEach((item,qi)=>{
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = 'qc'+qi;
+    const optsHtml = item.opts.map((o,oi)=>
+      `<label class="opt" id="opt-${qi}-${oi}">
+        <input type="radio" name="q${qi}" value="${oi}" ${myAnswers[qi]===oi?'checked':''} onchange="pick(${qi},${oi})">
+        <span><strong style="color:var(--cyan);margin-right:6px">${'ABCD'[oi]}.</strong>${o}</span>
+      </label>`).join('');
+    card.innerHTML = `
+      <div class="q-title"><span class="q-num">Q${qi+1}</span>${item.q}</div>
+      ${optsHtml}
+      <div class="explain" id="ex${qi}"></div>`;
+    quizArea.appendChild(card);
+    if(myAnswers[qi]!==undefined) markPicked(qi, myAnswers[qi]);
   });
-
-  // 触屏滑动
-  let tx=0;
-  document.addEventListener('touchstart',e=>{ tx=e.touches[0].clientX; },{passive:true});
-  document.addEventListener('touchend',e=>{
-    const dx = e.changedTouches[0].clientX - tx;
-    if(Math.abs(dx)>50){ changeSlide(dx<0?1:-1); }
-  },{passive:true});
-
-  // 点击顶部圆点跳转
-  dots.forEach((d,idx)=>{
-    d.style.cursor='pointer';
-    d.addEventListener('click',()=>show(idx));
+}
+function pick(qi,oi){
+  myAnswers[qi]=oi;
+  store.set(K.answers, myAnswers);
+  markPicked(qi,oi);
+}
+function markPicked(qi,oi){
+  document.querySelectorAll(`#qc${qi} .opt`).forEach((el,i)=>el.classList.toggle('selected', i===oi));
+}
+function submitTest(){
+  const answered = Object.keys(myAnswers).length;
+  if(answered < QUESTIONS.length){
+    toast(`还有 ${QUESTIONS.length-answered} 题未作答`);
+    return;
+  }
+  if(!getInfo()){ toast('请先登记姓名与学号'); openInfoModal(); return; }
+  let correct = 0;
+  QUESTIONS.forEach((item,qi)=>{
+    const card = document.getElementById('qc'+qi);
+    const ok = myAnswers[qi]===item.a;
+    if(ok) correct++;
+    card.classList.add('graded', ok?'correct':'wrong');
+    document.getElementById(`opt-${qi}-${item.a}`).classList.add('right');
+    if(!ok) document.getElementById(`opt-${qi}-${myAnswers[qi]}`).classList.add('mistake');
+    document.getElementById('ex'+qi).innerHTML =
+      (ok?'<strong>✓ 回答正确</strong> · ':'<strong>✗ 正确答案：'+'ABCD'[item.a]+'</strong> · ')+item.ex;
   });
+  const score = Math.round(correct/QUESTIONS.length*100);
+  const record = store.get(K.test,{});
+  if(!record.best || score>record.best){
+    record.best = score;
+  }
+  record.last = score;
+  record.correct = correct;
+  record.total = QUESTIONS.length;
+  record.time = Date.now();
+  store.set(K.test, record);
 
-  show(0);
+  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('scoreSub').textContent =
+    `答对 ${correct} / ${QUESTIONS.length} 题${record.best>score?' · 历史最高 '+record.best+' 分':''} · 已保存`;
+  document.getElementById('testResult').style.display='block';
+  document.getElementById('retestBtn').style.display='inline-flex';
+  document.getElementById('submitTest').style.display='none';
+  refreshStatus();
+  document.getElementById('testResult').scrollIntoView({behavior:'smooth'});
+  toast('测试已提交，成绩已记录 ✓');
+}
+function resetTest(){
+  myAnswers = {};
+  store.set(K.answers, {});
+  renderQuiz();
+  document.getElementById('testResult').style.display='none';
+  document.getElementById('submitTest').style.display='inline-flex';
+  document.getElementById('retestBtn').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================= 在线提问 ================= */
+function submitQuestion(){
+  const text = document.getElementById('askText').value.trim();
+  if(!text){ toast('问题内容不能为空'); return; }
+  const anonymous = document.getElementById('askAnonymous').checked;
+  const info = getInfo();
+  if(!anonymous && !info){ toast('实名提问请先登记信息'); openInfoModal(); return; }
+  const qs = store.get(K.qs, []);
+  qs.unshift({
+    id: Date.now(),
+    tag: document.getElementById('askTag').value,
+    text,
+    anonymous,
+    who: anonymous ? '匿名同学' : (info ? info.name : '匿名同学'),
+    time: Date.now()
+  });
+  store.set(K.qs, qs);
+  document.getElementById('askText').value='';
+  renderQuestions();
+  refreshStatus();
+  toast('问题已提交，老师会看到 ✓');
+}
+function renderQuestions(){
+  const qs = store.get(K.qs, []);
+  const list = document.getElementById('qList');
+  document.getElementById('qCount').textContent = qs.length;
+  if(!qs.length){
+    list.innerHTML = `<div class="empty-tip">还没有提交过问题<br>预习中遇到任何疑问，都欢迎写下来</div>`;
+    return;
+  }
+  list.innerHTML = qs.map(q=>`
+    <div class="q-item">
+      <div class="q-head">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <span class="who">${escapeHtml(q.who)}</span>
+          <span class="tag-chip">${escapeHtml(q.tag)}</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="when">${fmtTime(q.time)}</span>
+          <button class="del" onclick="delQuestion(${q.id})">删除</button>
+        </div>
+      </div>
+      <div class="q-body">${escapeHtml(q.text)}</div>
+    </div>`).join('');
+}
+function delQuestion(id){
+  const qs = store.get(K.qs, []).filter(q=>q.id!==id);
+  store.set(K.qs, qs);
+  renderQuestions();
+  refreshStatus();
+}
+function clearQuestions(){
+  if(!confirm('确定清空所有已提交的问题吗？')) return;
+  store.set(K.qs, []);
+  renderQuestions();
+  refreshStatus();
+}
+
+/* ================= 回执复制 ================= */
+function buildReceipt(){
+  const info = getInfo();
+  const t = store.get(K.test,{});
+  const qs = store.get(K.qs,[]);
+  const lines = [
+    '【模电预习回执】'+CONFIG.courseId,
+    '姓名：'+(info?info.name:'未登记')+'　学号：'+(info?info.sid:'未登记'),
+    '课件：'+(store.get(K.slidesDone,false)?'已浏览':'未完成'),
+    '预习测试：'+(t.best!==undefined?('最高 '+t.best+' 分（'+ (t.correct??'-') +'/'+ (t.total??QUESTIONS.length) +'）'):'未完成'),
+    '提问：'+qs.length+' 条'
+  ];
+  qs.forEach((q,i)=>lines.push(`  ${i+1}. [${q.tag}] ${q.text}`));
+  return lines.join('\n');
+}
+function copyReceipt(){
+  const text = buildReceipt();
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>toast('回执已复制，可粘贴到班级群 📋'))
+      .catch(()=>fallbackCopy(text));
+  } else fallbackCopy(text);
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text; document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); toast('回执已复制，可粘贴到班级群 📋'); }
+  catch(e){ toast('复制失败，请手动截图'); }
+  document.body.removeChild(ta);
+}
+
+/* ================= 学生信息 ================= */
+function getInfo(){ return store.get(K.info,null); }
+function openInfoModal(){
+  const info = getInfo();
+  if(info){ document.getElementById('inputName').value=info.name; document.getElementById('inputSid').value=info.sid; }
+  document.getElementById('infoModal').classList.add('show');
+}
+function closeInfoModal(){ document.getElementById('infoModal').classList.remove('show'); }
+function saveInfo(){
+  const name = document.getElementById('inputName').value.trim();
+  const sid = document.getElementById('inputSid').value.trim();
+  if(!name){ toast('请输入姓名'); return; }
+  if(!sid){ toast('请输入学号'); return; }
+  store.set(K.info,{name,sid});
+  closeInfoModal();
+  refreshStatus();
+  toast('信息已登记 ✓');
+}
+document.getElementById('infoModal').addEventListener('click',e=>{
+  if(e.target===e.currentTarget) closeInfoModal();
+});
+
+/* ================= 状态刷新 ================= */
+function refreshStatus(){
+  const info = getInfo();
+  document.getElementById('userChip').textContent = info ? '👤 '+info.name : '👤 未登记';
+  const slidesDone = store.get(K.slidesDone,false);
+  const testDone = store.get(K.test,{}).best!==undefined;
+  const qCount = store.get(K.qs,[]).length;
+  document.getElementById('tabSlides').classList.toggle('completed', slidesDone);
+  document.getElementById('tabTest').classList.toggle('completed', testDone);
+  document.getElementById('tabAsk').classList.toggle('completed', qCount>0);
+  const s1 = document.getElementById('stateSlides');
+  const s2 = document.getElementById('stateTest');
+  const s3 = document.getElementById('stateAsk');
+  s1.textContent = slidesDone?'已完成 ✓':'待学习';
+  s1.parentElement.classList.toggle('is-done', slidesDone);
+  s2.textContent = testDone?('最高 '+store.get(K.test,{}).best+' 分'):'未完成';
+  s2.parentElement.classList.toggle('is-done', testDone);
+  s3.textContent = qCount>0?('已提 '+qCount+' 问'):'未提问';
+  s3.parentElement.classList.toggle('is-done', qCount>0);
+}
+
+/* ================= 工具 ================= */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function fmtTime(ts){
+  const d = new Date(ts);
+  const p = n=>String(n).padStart(2,'0');
+  return `${d.getMonth()+1}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ================= 初始化 ================= */
+renderQuiz();
+renderQuestions();
+refreshStatus();
+show(store.get(K.lastSlide,0));
 </script>
 
 </body>
